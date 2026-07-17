@@ -60,7 +60,7 @@ jobs:
           GSC_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN }}
           GSC_OAUTH_CLIENT_ID: ${{ secrets.GSC_OAUTH_CLIENT_ID }}
           GSC_OAUTH_CLIENT_SECRET: ${{ secrets.GSC_OAUTH_CLIENT_SECRET }}
-          GSC_SITE_URL: sc-domain:example.com
+          GSC_SITE_URL: sc-domain:gipoteza.agency
           TOPVISOR_API_TOKEN: ${{ secrets.TOPVISOR_API_TOKEN }}
           TOPVISOR_PROJECT_ID: ${{ secrets.TOPVISOR_PROJECT_ID }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}

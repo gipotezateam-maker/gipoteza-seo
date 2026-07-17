@@ -75,14 +75,14 @@ jobs:
           GSC_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN }}
           GSC_OAUTH_CLIENT_ID: ${{ secrets.GSC_OAUTH_CLIENT_ID }}
           GSC_OAUTH_CLIENT_SECRET: ${{ secrets.GSC_OAUTH_CLIENT_SECRET }}
-          GSC_SITE_URL: sc-domain:example.com
+          GSC_SITE_URL: sc-domain:gipoteza.agency
           YANDEX_WEBMASTER_TOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
           YANDEX_WEBMASTER_USER_ID: ${{ secrets.YANDEX_WEBMASTER_USER_ID }}
           YANDEX_WEBMASTER_HOST_ID: ${{ secrets.YANDEX_WEBMASTER_HOST_ID }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          SITE_URL_BASE: https://example.com
-          SITEMAP_URL: https://example.com/sitemap.xml
+          SITE_URL_BASE: https://gipoteza.agency
+          SITEMAP_URL: https://gipoteza.agency/sitemap.xml
           MANUAL_URLS: ${{ github.event.inputs.urls }}
           SITEMAP_ONLY: ${{ github.event.inputs.sitemap_only || 'false' }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
