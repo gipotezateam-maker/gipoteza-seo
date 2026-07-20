@@ -96,6 +96,11 @@ IMAGE_STYLE_SUFFIX = (
     "no logos, no watermarks. 16:9 wide composition."
 )
 
+# Инлайн-картинки в теле статьи: автор ставит маркеры {{IMAGE: описание}},
+# orchestrator заменяет их на сгенерированные картинки (не более MAX_INLINE_IMAGES).
+MAX_INLINE_IMAGES = int(os.environ.get("MAX_INLINE_IMAGES", "3"))
+INLINE_IMG_RE = re.compile(r"\{\{IMAGE:\s*(.+?)\}\}", re.DOTALL)
+
 # логирование
 logging.basicConfig(
     level=logging.INFO,
@@ -143,7 +148,7 @@ class ArticleResult:
     slug: str = ""
     title: str = ""
     file_path: Optional[Path] = None
-    image_path: Optional[Path] = None
+    image_paths: list[Path] = field(default_factory=list)  # обложка + инлайн-картинки
     status: str = "pending"  # pending | published | draft | failed
     error: Optional[str] = None
     elapsed_sec: float = 0.0
@@ -451,27 +456,23 @@ def process_topic(topic: Topic, publish_date: str, blog_dir: Path) -> ArticleRes
     return res
 
 
-def generate_cover(image_prompt: str, slug: str) -> Optional[str]:
-    """Генерирует обложку через OpenAI gpt-image-1, кладёт .webp в репо сайта.
-    Возвращает относительный URL (/blog-images/<slug>.webp) или None (не критично).
+def _gen_image_webp(concept: str, out_path: Path) -> bool:
+    """Генерирует одно изображение через OpenAI gpt-image-1 и пишет .webp в out_path.
+    Возвращает True при успехе. Никогда не бросает — картинка не должна валить прогон.
     """
-    if not OPENAI_API_KEY:
-        return None
+    if not OPENAI_API_KEY or not concept.strip():
+        return False
     import base64
     import requests
 
-    prompt = (image_prompt or "").strip()
-    if not prompt:
-        return None
-    prompt = prompt + IMAGE_STYLE_SUFFIX
-
+    prompt = (concept.strip() + IMAGE_STYLE_SUFFIX)[:4000]
     try:
         resp = requests.post(
             "https://api.openai.com/v1/images/generations",
             headers={"Authorization": f"Bearer {OPENAI_API_KEY}"},
             json={
                 "model": IMAGE_MODEL,
-                "prompt": prompt[:4000],
+                "prompt": prompt,
                 "size": IMAGE_SIZE,
                 "quality": IMAGE_QUALITY,
                 "output_format": "webp",
@@ -482,15 +483,47 @@ def generate_cover(image_prompt: str, slug: str) -> Optional[str]:
         )
         resp.raise_for_status()
         b64 = resp.json()["data"][0]["b64_json"]
-    except Exception as e:  # noqa: BLE001 — обложка не должна валить прогон
-        log.warning("  ⚠ %s: не удалось сгенерировать обложку: %s", slug, e)
-        return None
+    except Exception as e:  # noqa: BLE001
+        log.warning("  ⚠ не удалось сгенерировать изображение (%s): %s", out_path.name, e)
+        return False
 
-    img_dir = SITE_REPO_PATH / BLOG_IMAGES_REL
-    img_dir.mkdir(parents=True, exist_ok=True)
-    (img_dir / f"{slug}.webp").write_bytes(base64.b64decode(b64))
-    log.info("  🖼 %s: обложка сгенерирована", slug)
-    return f"/blog-images/{slug}.webp"
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_bytes(base64.b64decode(b64))
+    return True
+
+
+def generate_cover(image_prompt: str, slug: str) -> Optional[str]:
+    """Обложка статьи → /blog-images/<slug>.webp. Возвращает URL или None."""
+    out = SITE_REPO_PATH / BLOG_IMAGES_REL / f"{slug}.webp"
+    if _gen_image_webp(image_prompt or "", out):
+        log.info("  🖼 %s: обложка", slug)
+        return f"/blog-images/{slug}.webp"
+    return None
+
+
+def process_inline_images(md: str, slug: str) -> tuple[str, list[Path]]:
+    """Заменяет маркеры {{IMAGE: описание}} в теле на сгенерированные картинки.
+    Возвращает (обновлённый md, список путей картинок). Маркеры всегда удаляются —
+    даже без ключа/при сбое, чтобы в тексте не осталось литеральных {{IMAGE:...}}.
+    """
+    paths: list[Path] = []
+    counter = {"i": 0}
+
+    def repl(m: "re.Match") -> str:
+        counter["i"] += 1
+        idx = counter["i"]
+        if idx > MAX_INLINE_IMAGES:
+            return ""  # сверх лимита — просто убираем маркер
+        concept = m.group(1).strip()
+        out = SITE_REPO_PATH / BLOG_IMAGES_REL / f"{slug}-{idx}.webp"
+        if _gen_image_webp(concept, out):
+            paths.append(out)
+            alt = re.sub(r'["\]\[]', "", concept)[:80]
+            log.info("  🖼 %s: инлайн-картинка %d", slug, idx)
+            return f"![{alt}](/blog-images/{slug}-{idx}.webp)"
+        return ""  # нет ключа/сбой — убираем маркер (без битой картинки)
+
+    return INLINE_IMG_RE.sub(repl, md), paths
 
 
 def set_frontmatter_cover(md: str, cover_url: str) -> str:
@@ -527,7 +560,11 @@ def finalize_article(res: ArticleResult, brief: dict, mdx: str,
     cover_url = generate_cover(brief.get("image_prompt", "") or res.title, res.slug)
     if cover_url:
         mdx = set_frontmatter_cover(mdx, cover_url)
-        res.image_path = SITE_REPO_PATH / BLOG_IMAGES_REL / f"{res.slug}.webp"
+        res.image_paths.append(SITE_REPO_PATH / BLOG_IMAGES_REL / f"{res.slug}.webp")
+
+    # инлайн-картинки в теле по маркерам {{IMAGE: ...}} (маркеры всегда убираются)
+    mdx, inline_paths = process_inline_images(mdx, res.slug)
+    res.image_paths.extend(inline_paths)
 
     target = blog_dir / f"{res.slug}.md"
     target.write_text(mdx, encoding="utf-8")
@@ -698,8 +735,8 @@ def main() -> int:
         report.results.append(res)
         if res.status in ("published", "draft") and res.file_path:
             written_files.append(res.file_path)
-            if res.image_path and res.image_path.exists():
-                written_files.append(res.image_path)  # обложку тоже коммитим в сайт-репо
+            # картинки статьи (обложка + инлайн) тоже коммитим в сайт-репо
+            written_files.extend(p for p in res.image_paths if p.exists())
             successful_topics.append(res.topic)
             used_rows.append({
                 "date": publish_date,
