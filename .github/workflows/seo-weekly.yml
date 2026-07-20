@@ -79,6 +79,9 @@ jobs:
         env:
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+          # Автопоиск конкурентов по нашим запросам (yandex.ru/dev/xml). Без ключей — no-op.
+          YANDEX_XML_USER: ${{ secrets.YANDEX_XML_USER }}
+          YANDEX_XML_KEY: ${{ secrets.YANDEX_XML_KEY }}
           DRY_RUN: ${{ github.event.inputs.dry_run || 'false' }}
         run: |
           ARGS=""

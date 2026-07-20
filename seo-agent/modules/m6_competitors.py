@@ -40,34 +40,39 @@ log = logging.getLogger(__name__)
 
 REPO_ROOT = THIS_DIR.parent.parent
 DATA_DIR = THIS_DIR.parent / "data" / "competitors"
+COMPETITORS_FILE = DATA_DIR / "competitors.json"
 
-# Из docs/seo/keywords.md + SEO-исследования (synergy, distant-college, niidpo).
-COMPETITORS = [
-    {
-        "name": "Synergy",
-        "homepage": "https://synergy.ru/about/education_articles/kolledzh/",
-        "blog_url": "https://synergy.ru/journal",
-        "sitemap": "https://synergy.ru/sitemap.xml",
-    },
-    {
-        "name": "Distant-college (НСПК)",
-        "homepage": "https://distant-college.ru/",
-        "blog_url": "https://distant-college.ru/blog",
-        "sitemap": "https://distant-college.ru/sitemap.xml",
-    },
-    {
-        "name": "NIIDPO",
-        "homepage": "https://niidpo.ru/",
-        "blog_url": "https://niidpo.ru/blog/",
-        "sitemap": "https://niidpo.ru/sitemap.xml",
-    },
-    {
-        "name": "VuzoPedia SPO",
-        "homepage": "https://vuzopedia.ru/spo/journal",
-        "blog_url": "https://vuzopedia.ru/spo/journal",
-        "sitemap": "https://vuzopedia.ru/sitemap.xml",
-    },
-]
+# Наш домен + агрегаторы/площадки, которые НЕ считаем прямыми конкурентами при автопоиске.
+OWN_DOMAIN = "gipoteza-agency.ru"
+IGNORE_DOMAINS = {
+    "gipoteza-agency.ru", "yandex.ru", "ya.ru", "google.com", "youtube.com",
+    "vk.com", "dzen.ru", "habr.com", "vc.ru", "rbc.ru", "wikipedia.org",
+    "skillbox.ru", "geekbrains.ru", "netology.ru", "sberbank.ru", "t.me",
+    "ozon.ru", "wildberries.ru", "avito.ru", "2gis.ru", "pikabu.ru",
+}
+
+
+def load_competitors() -> list[dict]:
+    """Список конкурентов из data/competitors/competitors.json (seed + discovered).
+    Падать не должен: при отсутствии файла возвращает пустой список."""
+    if not COMPETITORS_FILE.exists():
+        log.warning("Нет %s — список конкурентов пуст", COMPETITORS_FILE)
+        return []
+    try:
+        data = json.loads(COMPETITORS_FILE.read_text(encoding="utf-8"))
+    except Exception as e:  # noqa: BLE001
+        log.warning("Не удалось прочитать %s: %s", COMPETITORS_FILE, e)
+        return []
+    seed = data.get("seed", [])
+    discovered = data.get("discovered", [])
+    # дедуп по домену homepage
+    out, seen = [], set()
+    for c in [*seed, *discovered]:
+        dom = urlparse(c.get("homepage", "")).netloc.lower().lstrip("www.")
+        if dom and dom not in seen:
+            seen.add(dom)
+            out.append(c)
+    return out
 
 
 def analyse_page(url: str) -> dict:
@@ -154,13 +159,88 @@ def find_recent_blog_urls(sitemap_url: str, days: int = 30, limit: int = 100) ->
         return []
 
 
+def _discovery_queries(limit: int = 15) -> list[str]:
+    """Запросы для автопоиска конкурентов — из tracked-keywords.json."""
+    kw_file = THIS_DIR.parent / "data" / "rankings" / "tracked-keywords.json"
+    if not kw_file.exists():
+        return []
+    try:
+        kws = json.loads(kw_file.read_text(encoding="utf-8"))
+    except Exception:  # noqa: BLE001
+        return []
+    return [k for k in kws if isinstance(k, str) and k.strip()][:limit]
+
+
+def discover_competitors() -> list[str]:
+    """Автопоиск конкурентов: по нашим запросам смотрит выдачу Яндекса (Yandex XML API)
+    и добавляет домены, которые ранжируются по ≥2 запросам, в competitors.json → discovered.
+    Требует YANDEX_XML_USER + YANDEX_XML_KEY (yandex.ru/dev/xml). Без ключей — no-op.
+    Возвращает список новых доменов. Никогда не бросает."""
+    user = os.environ.get("YANDEX_XML_USER", "").strip()
+    key = os.environ.get("YANDEX_XML_KEY", "").strip()
+    if not (user and key):
+        log.info("Автопоиск конкурентов пропущен: задай YANDEX_XML_USER + YANDEX_XML_KEY "
+                 "(yandex.ru/dev/xml), чтобы агент сам находил конкурентов по выдаче.")
+        return []
+    queries = _discovery_queries()
+    if not queries:
+        log.info("Нет запросов для автопоиска (data/rankings/tracked-keywords.json)")
+        return []
+
+    import xml.etree.ElementTree as ET
+    import requests
+
+    domain_hits: "Counter[str]" = Counter()
+    for q in queries:
+        try:
+            r = requests.get(
+                "https://yandex.ru/search/xml",
+                params={"user": user, "key": key, "query": q, "l10n": "ru",
+                        "sortby": "rlv", "groupby": "attr=d.mode=deep.groups-on-page=10.docs-in-group=1"},
+                timeout=30,
+            )
+            r.raise_for_status()
+            root = ET.fromstring(r.text)
+            seen_in_q = set()
+            for url_el in root.iter("url"):
+                dom = urlparse((url_el.text or "").strip()).netloc.lower()
+                dom = dom[4:] if dom.startswith("www.") else dom
+                if dom and dom not in IGNORE_DOMAINS and dom not in seen_in_q:
+                    seen_in_q.add(dom)
+                    domain_hits[dom] += 1
+        except Exception as e:  # noqa: BLE001
+            log.warning("Yandex XML по запросу '%s': %s", q, e)
+
+    # существующие домены
+    data = json.loads(COMPETITORS_FILE.read_text(encoding="utf-8")) if COMPETITORS_FILE.exists() else {"seed": [], "discovered": []}
+    known = {urlparse(c.get("homepage", "")).netloc.lower().lstrip("www.")
+             for c in [*data.get("seed", []), *data.get("discovered", [])]}
+    new_domains = [d for d, n in domain_hits.most_common() if n >= 2 and d not in known]
+    for dom in new_domains:
+        data.setdefault("discovered", []).append({
+            "name": dom,
+            "homepage": f"https://{dom}/",
+            "blog_url": f"https://{dom}/blog",
+            "sitemap": f"https://{dom}/sitemap.xml",
+        })
+    if new_domains:
+        COMPETITORS_FILE.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")
+        log.info("Автопоиск: добавлено %d новых конкурентов: %s", len(new_domains), ", ".join(new_domains))
+    else:
+        log.info("Автопоиск: новых конкурентов не найдено")
+    return new_domains
+
+
 def run_competitors(dry_run: bool = False) -> Path:
     today = dt.date.today().isoformat()
     log.info("=== M6 competitor watcher · %s ===", today)
     DATA_DIR.mkdir(parents=True, exist_ok=True)
 
+    # автопоиск новых конкурентов по нашим запросам (если настроен Yandex XML)
+    discover_competitors()
+
     report: dict = {"date": today, "competitors": []}
-    for comp in COMPETITORS:
+    for comp in load_competitors():
         log.info("Анализирую %s — %s", comp["name"], comp["homepage"])
         homepage_data = analyse_page(comp["homepage"])
         recent = find_recent_blog_urls(comp["sitemap"], days=14)

@@ -1,0 +1,54 @@
+{
+  "_note": "Конкуренты Гипотезы (вебинарные воронки/запуски/продюсирование). Модуль m6_competitors читает этот файл. Автопоиск (discover_competitors через Яндекс XML) дописывает найденные домены в разделе discovered.",
+  "seed": [
+    {
+      "name": "Вкурсе (vkusnovk)",
+      "homepage": "https://vkusnovk.ru/",
+      "blog_url": "https://vkusnovk.ru/blog",
+      "sitemap": "https://vkusnovk.ru/post-sitemap.xml"
+    },
+    {
+      "name": "White EdTech",
+      "homepage": "https://blog.whiteedtech.ru/",
+      "blog_url": "https://blog.whiteedtech.ru/blog",
+      "sitemap": "https://blog.whiteedtech.ru/sitemap.xml"
+    },
+    {
+      "name": "Vakas-tools",
+      "homepage": "https://vakas-tools.ru/",
+      "blog_url": "https://vakas-tools.ru/blog",
+      "sitemap": "https://vakas-tools.ru/sitemap.xml"
+    },
+    {
+      "name": "Никита Волков",
+      "homepage": "https://nikitavolkov.com/",
+      "blog_url": "https://nikitavolkov.com/blog",
+      "sitemap": "https://nikitavolkov.com/sitemap.xml"
+    },
+    {
+      "name": "Deity Agency",
+      "homepage": "https://deityagency.com/",
+      "blog_url": "https://deityagency.com/",
+      "sitemap": "https://deityagency.com/sitemap.xml"
+    },
+    {
+      "name": "Banksy Marketing",
+      "homepage": "https://banksymarketing.ru/",
+      "blog_url": "https://banksymarketing.ru/",
+      "sitemap": "https://banksymarketing.ru/sitemap.xml"
+    },
+    {
+      "name": "Продюсерский центр В точку",
+      "homepage": "https://t4ka.ru/",
+      "blog_url": "https://t4ka.ru/",
+      "sitemap": "https://t4ka.ru/sitemap.xml"
+    },
+    {
+      "name": "WayAgency",
+      "homepage": "https://wayagency.ru/",
+      "blog_url": "https://wayagency.ru/produce",
+      "sitemap": "https://wayagency.ru/sitemap.xml"
+    }
+  ],
+  "discovered": []
+}
