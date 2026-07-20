@@ -1,7 +1,7 @@
 name: content-factory
 
 # ФАЗА 1: контент-фабрика НЕ запускается по расписанию.
-# Сайт gipoteza.agency — React 19/Vite SPA, формат вывода фабрики надо
+# Сайт gipoteza-agency.ru — React 19/Vite SPA, формат вывода фабрики надо
 # адаптировать под 4-файловый контракт (Фаза 2). До адаптации — только
 # ручной запуск из Actions tab (workflow_dispatch), крон намеренно снят.
 # Anthropic API недоступен из РФ → запуск на runner'ах GitHub (US/EU).
@@ -95,17 +95,15 @@ jobs:
       - name: Ping search engines (IndexNow + Я.Вебмастер + GSC)
         if: success()
         env:
-          GSC_OAUTH_REFRESH_TOKEN: ${{ secrets.GSC_OAUTH_REFRESH_TOKEN }}
-          GSC_OAUTH_CLIENT_ID: ${{ secrets.GSC_OAUTH_CLIENT_ID }}
-          GSC_OAUTH_CLIENT_SECRET: ${{ secrets.GSC_OAUTH_CLIENT_SECRET }}
-          GSC_SITE_URL: sc-domain:gipoteza.agency
+          GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
+          GSC_SITE_URL: https://gipoteza-agency.ru/
           YANDEX_WEBMASTER_TOKEN: ${{ secrets.YANDEX_WEBMASTER_TOKEN }}
           YANDEX_WEBMASTER_USER_ID: ${{ secrets.YANDEX_WEBMASTER_USER_ID }}
           YANDEX_WEBMASTER_HOST_ID: ${{ secrets.YANDEX_WEBMASTER_HOST_ID }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
-          SITE_URL_BASE: https://gipoteza.agency
-          SITEMAP_URL: https://gipoteza.agency/sitemap.xml
+          SITE_URL_BASE: https://gipoteza-agency.ru
+          SITEMAP_URL: https://gipoteza-agency.ru/sitemap.xml
         run: |
           pip install google-api-python-client google-auth google-auth-oauthlib requests
           python3 seo-agent/scripts/ping_new_urls.py --from-git-diff --base-ref=${{ github.sha }} --head-ref=HEAD

@@ -61,7 +61,7 @@ jobs:
       - name: Run M2 tech audit
         working-directory: seo-agent
         env:
-          M2_SITE_ROOT: https://gipoteza.agency
+          M2_SITE_ROOT: https://gipoteza-agency.ru
           PSI_API_KEY: ${{ secrets.PSI_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
