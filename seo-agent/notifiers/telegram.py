@@ -27,27 +27,37 @@ TELEGRAM_API = "https://api.telegram.org/bot{token}/sendMessage"
 MAX_MESSAGE_LENGTH = 4096  # лимит Telegram
 
 
-def _credentials() -> tuple[str, str]:
+def _credentials() -> tuple[str, list[str]]:
+    """Токен + список chat_id. TELEGRAM_CHAT_ID может содержать несколько
+    получателей через запятую (напр. "-1001234,683646991")."""
     token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
-    chat_id = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
-    if not token or not chat_id:
+    raw = os.environ.get("TELEGRAM_CHAT_ID", "").strip()
+    chat_ids = [c.strip() for c in raw.split(",") if c.strip()]
+    if not token or not chat_ids:
         raise RuntimeError(
             "TELEGRAM_BOT_TOKEN или TELEGRAM_CHAT_ID не заданы. "
             "См. docs/seo/agent-system/access-checklist.md, пункт 1."
         )
-    return token, chat_id
+    return token, chat_ids
 
 
 def _send(text: str, parse_mode: Optional[str] = None) -> dict:
-    token, chat_id = _credentials()
+    """Шлёт всем получателям. Сбой доставки одному не мешает остальным.
+    Возвращает ответ по последнему успешному получателю."""
+    token, chat_ids = _credentials()
     url = TELEGRAM_API.format(token=token)
-    payload = {"chat_id": chat_id, "text": text, "disable_web_page_preview": True}
-    if parse_mode:
-        payload["parse_mode"] = parse_mode
-
-    response = requests.post(url, json=payload, timeout=15)
-    response.raise_for_status()
-    return response.json()
+    last: dict = {}
+    for chat_id in chat_ids:
+        payload = {"chat_id": chat_id, "text": text, "disable_web_page_preview": True}
+        if parse_mode:
+            payload["parse_mode"] = parse_mode
+        try:
+            response = requests.post(url, json=payload, timeout=15)
+            response.raise_for_status()
+            last = response.json()
+        except Exception as e:  # noqa: BLE001 — один получатель не должен ронять доставку
+            log.warning("Telegram: не доставлено получателю %s: %s", chat_id, e)
+    return last
 
 
 def send_telegram(text: str) -> dict:
