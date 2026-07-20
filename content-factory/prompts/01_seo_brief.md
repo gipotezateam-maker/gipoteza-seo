@@ -17,6 +17,7 @@ PUBLISH_DATE.
   "title": "Заголовок статьи ≤60 символов",
   "description": "Мета-описание ≤160 символов, с главным ключом и выгодой",
   "excerpt": "1–2 предложения для карточки статьи в списке блога, живо и по сути",
+  "image_prompt": "In English: concise concept for the cover illustration by article topic (a scene/metaphor/object), WITHOUT any text. Style is added automatically.",
   "h1": "Заголовок H1 на странице",
   "category": "Одна из: Практика | Аналитика | Экономика | Маркетинг | Инструменты | Кейсы",
   "tags": ["тег1", "тег2", "тег3"],

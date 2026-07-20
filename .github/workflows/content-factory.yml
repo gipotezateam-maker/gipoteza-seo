@@ -84,6 +84,11 @@ jobs:
           ANTHROPIC_MODEL: claude-sonnet-4-6
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
 
+          # Обложки статей (OpenAI gpt-image-1). Если секрет не задан — обложки
+          # не генерятся, сайт показывает брендовую SVG-заглушку.
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+          IMAGE_QUALITY: medium
+
           EMAIL_FROM: "onboarding@resend.dev"
           EMAIL_TO: "neondinozavr@gmail.com"
           EMAIL_FROM_FALLBACK: "onboarding@resend.dev"

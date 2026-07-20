@@ -77,6 +77,25 @@ SITE_BLOG_DIR = os.environ.get("SITE_BLOG_DIR", "client/src/content/blog")
 # Относительный путь к CSV-состоянию внутри STATE_REPO_PATH.
 CF_DATA_REL = Path("content-factory/data")
 
+# ── Генерация обложек (OpenAI gpt-image-1) ────────────────────────────
+# Опционально: если OPENAI_API_KEY не задан, обложки не генерятся, и сайт
+# показывает брендовую SVG-заглушку (loader.ts). Картинки .webp кладутся в
+# репо сайта: client/public/blog-images/<slug>.webp → cover: /blog-images/<slug>.webp
+OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY", "").strip()
+IMAGE_MODEL = os.environ.get("IMAGE_MODEL", "gpt-image-1")
+IMAGE_SIZE = os.environ.get("IMAGE_SIZE", "1536x1024")       # альбомная обложка
+IMAGE_QUALITY = os.environ.get("IMAGE_QUALITY", "medium")     # low|medium|high
+IMAGE_COMPRESSION = int(os.environ.get("IMAGE_COMPRESSION", "80"))
+BLOG_IMAGES_REL = Path("client/public/blog-images")
+
+# Стиль обложек — под тёмный editorial сайта (акцент #FF2D20, без текста).
+IMAGE_STYLE_SUFFIX = (
+    " Dark editorial illustration, near-black background (#0A0A0A), single bold "
+    "red accent (#FF2D20), minimal geometric composition, high contrast, "
+    "conceptual, premium tech-magazine aesthetic. No text, no words, no letters, "
+    "no logos, no watermarks. 16:9 wide composition."
+)
+
 # логирование
 logging.basicConfig(
     level=logging.INFO,
@@ -124,6 +143,7 @@ class ArticleResult:
     slug: str = ""
     title: str = ""
     file_path: Optional[Path] = None
+    image_path: Optional[Path] = None
     status: str = "pending"  # pending | published | draft | failed
     error: Optional[str] = None
     elapsed_sec: float = 0.0
@@ -384,7 +404,8 @@ def commit_and_push_articles(written_files: list[Path], date_str: str) -> Option
     if not written_files:
         return None
     paths = [str(p.relative_to(SITE_REPO_PATH)) for p in written_files]
-    msg = f"content-factory: {len(written_files)} статей за {date_str}"
+    n_articles = sum(1 for p in written_files if p.suffix == ".md")
+    msg = f"content-factory: {n_articles} статей за {date_str}"
     return _commit_push(SITE_REPO_PATH, paths, SITE_REPO_BRANCH, msg)
 
 
@@ -430,6 +451,64 @@ def process_topic(topic: Topic, publish_date: str, blog_dir: Path) -> ArticleRes
     return res
 
 
+def generate_cover(image_prompt: str, slug: str) -> Optional[str]:
+    """Генерирует обложку через OpenAI gpt-image-1, кладёт .webp в репо сайта.
+    Возвращает относительный URL (/blog-images/<slug>.webp) или None (не критично).
+    """
+    if not OPENAI_API_KEY:
+        return None
+    import base64
+    import requests
+
+    prompt = (image_prompt or "").strip()
+    if not prompt:
+        return None
+    prompt = prompt + IMAGE_STYLE_SUFFIX
+
+    try:
+        resp = requests.post(
+            "https://api.openai.com/v1/images/generations",
+            headers={"Authorization": f"Bearer {OPENAI_API_KEY}"},
+            json={
+                "model": IMAGE_MODEL,
+                "prompt": prompt[:4000],
+                "size": IMAGE_SIZE,
+                "quality": IMAGE_QUALITY,
+                "output_format": "webp",
+                "output_compression": IMAGE_COMPRESSION,
+                "n": 1,
+            },
+            timeout=180,
+        )
+        resp.raise_for_status()
+        b64 = resp.json()["data"][0]["b64_json"]
+    except Exception as e:  # noqa: BLE001 — обложка не должна валить прогон
+        log.warning("  ⚠ %s: не удалось сгенерировать обложку: %s", slug, e)
+        return None
+
+    img_dir = SITE_REPO_PATH / BLOG_IMAGES_REL
+    img_dir.mkdir(parents=True, exist_ok=True)
+    (img_dir / f"{slug}.webp").write_bytes(base64.b64decode(b64))
+    log.info("  🖼 %s: обложка сгенерирована", slug)
+    return f"/blog-images/{slug}.webp"
+
+
+def set_frontmatter_cover(md: str, cover_url: str) -> str:
+    """Вставляет/заменяет поле cover в frontmatter статьи."""
+    if not md.startswith("---"):
+        return md
+    end = md.find("\n---", 3)
+    if end == -1:
+        return md
+    fm, rest = md[:end], md[end:]
+    line = f'cover: "{cover_url}"'
+    if re.search(r"^cover:\s*.*$", fm, flags=re.MULTILINE):
+        fm = re.sub(r"^cover:\s*.*$", line, fm, count=1, flags=re.MULTILINE)
+    else:
+        fm = fm.rstrip("\n") + "\n" + line
+    return fm + rest
+
+
 def finalize_article(res: ArticleResult, brief: dict, mdx: str,
                      blog_dir: Path, publish_date: str) -> None:
     """Постобработка сгенерированной статьи: нормализация slug, чистка якорей,
@@ -442,6 +521,13 @@ def finalize_article(res: ArticleResult, brief: dict, mdx: str,
     mdx, anchors_stripped = strip_heading_anchors(mdx)
     if anchors_stripped:
         log.warning("  ⚠ %s: убрано %d протекающих {#anchor} из заголовков", res.slug, anchors_stripped)
+
+    # обложка (OpenAI gpt-image-1) — необязательна: при отсутствии ключа/сбое
+    # сайт покажет брендовую SVG-заглушку.
+    cover_url = generate_cover(brief.get("image_prompt", "") or res.title, res.slug)
+    if cover_url:
+        mdx = set_frontmatter_cover(mdx, cover_url)
+        res.image_path = SITE_REPO_PATH / BLOG_IMAGES_REL / f"{res.slug}.webp"
 
     target = blog_dir / f"{res.slug}.md"
     target.write_text(mdx, encoding="utf-8")
@@ -612,6 +698,8 @@ def main() -> int:
         report.results.append(res)
         if res.status in ("published", "draft") and res.file_path:
             written_files.append(res.file_path)
+            if res.image_path and res.image_path.exists():
+                written_files.append(res.image_path)  # обложку тоже коммитим в сайт-репо
             successful_topics.append(res.topic)
             used_rows.append({
                 "date": publish_date,
