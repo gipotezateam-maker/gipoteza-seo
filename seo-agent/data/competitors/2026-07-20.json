@@ -2,91 +2,184 @@
   "date": "2026-07-20",
   "competitors": [
     {
-      "name": "Synergy",
+      "name": "Вкурсе (vkusnovk)",
       "homepage_analysis": {
-        "url": "https://synergy.ru/about/education_articles/kolledzh/",
+        "url": "https://vkusnovk.ru/",
         "status": 200,
-        "title": "Статьи «Колледж». | Университет СИНЕРГИЯ",
-        "h1": "",
-        "h2_count": 0,
-        "h2_examples": [],
-        "img_count": 46,
-        "links_count": 189,
+        "title": "Агентство Вкурсе. Продвижение образовательных проектов",
+        "h1": "Агентство\nобразовательного\nмаркетинга",
+        "h2_count": 3,
+        "h2_examples": [
+          "Продвижение, стратегии и автоматизация для образовательных проектов, готовых к и",
+          "Подпишитесь на наш  Telegram-канал про маркетинг образовательных проектов",
+          "Не уходите с этого экрана!"
+        ],
+        "img_count": 117,
+        "links_count": 128,
         "json_ld_types": [],
-        "word_count": 760
+        "word_count": 2639
       },
       "recent_urls": [
-        "https://synergy.ru/about/blog/fakultet_industrii_sporta_rasskazhet_o_samyix_vostrebovannyix_professiyax_v_etoj_sfere",
-        "https://synergy.ru/about/blog/uspeshnyie_kejsyi_internet_torgovli_obsudili_na_synergy_ecom_forum",
-        "https://synergy.ru/about/blog/zvezdyi_sporta_primut_uchastie_v_matche_po_lazertagu_na_festivale_start",
-        "https://synergy.ru/about/blog/mediczinskij_fakultet_priglashaet_posetit_den_otkryityix_dverej_i_uznat_o_vostrebovannyix_professiyax_v_mediczinskoj_sfere",
-        "https://synergy.ru/about/blog/v_sinergii_proidet_pervii_marafon_cifrovih_professii",
-        "https://synergy.ru/about/blog/student_universiteta_sinergiia_vosel_v_sovet_obucaiushhixsia_pri_minobrnauki",
-        "https://synergy.ru/about/blog/ceremoniia_vruceniia_krasnyx_diplomov_sostoialas_v_universitete_i_kolledze_sinergiia",
-        "https://synergy.ru/about/blog/fakultet_kino_i_televideniia_sinergii_predstavil_immersivnyi_spektakl_o_bolsevskoi_trudovoi_kommune",
-        "https://synergy.ru/about/blog/na_fakultete_informacionnyx_texnologii_obsudili_perspektivy_razrabotki_igr_i_primeneniia_ii_v_obrazovanii",
-        "https://synergy.ru/about/blog/prezident_korporacii_sinergiia_vadim_lobov_predstavil_patriarxu_kirillu_proekt_ekotrop_na_valaame",
-        "https://synergy.ru/about/blog/studentyi_fakulteta_dizajna_i_reklamyi_zanyali_prizovyie_mesta_na_festivale_leti",
-        "https://synergy.ru/about/blog/dekan_inzenernogo_fakulteta_rasskazal_o_zapuske_kosmiceskoi_laboratorii_dlia_skolnikov_irkutska",
-        "https://synergy.ru/about/blog/effekt_sinergii_vypusknik_universiteta_rasskazal_kak_sozdat_rabotaiushhii_produkt_cifrovogo_marketinga",
-        "https://synergy.ru/about/blog/vice_prezident_sinergii_vystupil_na_zasedanii_komiteta_opory_rossii_po_razvitiiu_sportivnoi_industrii_i_rynka_fitnes_uslug",
-        "https://synergy.ru/about/blog/na_fakultete_sporta_sostoialas_torzhestvennaia_ceremoniia_vruceniia_diplomov_vypusknikam",
-        "https://synergy.ru/about/blog/synergy_ecom_forum_samoe_ozhidaemoe_sobyitie_2022_goda_v_mire_internet_torgovli",
-        "https://synergy.ru/about/blog/professor_kafedryi_otechestvennoj_i_zarubezhnoj_literaturyi_vyistupila_ekspertom_v_dokumentalnom_filme_o_pisatele_simonove",
-        "https://synergy.ru/about/blog/synergy_academy_priglashaet_na_besplatnyij_intensiv_po_sozdaniyu_reklamnyix_kreativov_dlya_soczsetej",
-        "https://synergy.ru/about/blog/iskusstvennyij_intellekt_i_bolshie_dannyie",
-        "https://synergy.ru/about/blog/studentyi_fakulteta_animaczii_perenimayut_opyit_masterov_na_sobraniyax_kluba_animatorov_rossii",
-        "https://synergy.ru/about/blog/vadim_lobov_rasskazal_o_kulturnih_proektah_sinergii_v_intervu_ria_novosti",
-        "https://synergy.ru/about/blog/ii_forum_negosudarstvennogo_obrazovaniya_soberet_120_ekspertov_otrasli",
-        "https://synergy.ru/about/blog/czentr_kareryi_synergy_academy_priglashaet_na_federalnyij_forum_o_karere",
-        "https://synergy.ru/about/blog/mediczinskij_fakultet_prazdnuet_den_mediczinskogo_rabotnika_i_podvodit_itogi_uchebnogo_goda",
-        "https://synergy.ru/about/blog/kazdyi_sestoi_vypusknik_onlain_skoly_sinergiia_okoncil_11_i_klass_s_medaliu",
-        "https://synergy.ru/about/blog/fakultet_internet_professij_priglashaet_na_intensiv_po_kontent_menedzhmentu",
-        "https://synergy.ru/about/blog/vypusknik_fakulteta_sporta_zavoeval_bronzu_lmxl_i_byl_priznan_lucsim_trenerom_sezona",
-        "https://synergy.ru/about/blog/studenty_fakulteta_teatra_kino_i_tv_pokazali_spektakl_o_bolsevskoi_kommune_na_butovskom_poligone",
-        "https://synergy.ru/about/blog/sozdatel_medijnoj_futbolnoj_komandyi_rodina_media_aleksandr_t_killah_tarasov_provedet_master_klass_na_fakultete_industrii_sporta",
-        "https://synergy.ru/about/blog/universitet_sinergiia_i_ldpr_organizovali_kibersportivnyi_turnir_dlia_molodezi"
+        "https://vkusnovk.ru/blog/geo-aeo",
+        "https://vkusnovk.ru/blog/kak-nastroit-target-vk",
+        "https://vkusnovk.ru/blog/reklama-dly-samozanyatyh",
+        "https://vkusnovk.ru/blog/sistema-obucheniya-personala-v-organizaczii",
+        "https://vkusnovk.ru/blog/operatory-ord",
+        "https://vkusnovk.ru/blog/152-fz-hraneniye-personalnyh-dannyh"
       ],
-      "recent_count": 56
+      "recent_count": 6
     },
     {
-      "name": "Distant-college (НСПК)",
+      "name": "White EdTech",
       "homepage_analysis": {
-        "url": "https://distant-college.ru/",
+        "url": "https://blog.whiteedtech.ru/",
         "status": 200,
-        "title": "ÐÑ Ð½Ðµ ÑÐ¾Ð±Ð¾Ñ?",
+        "title": "Блог Белый Edtech&Elearn | Статьи про онлайн-образование и технологии в обучении - Статьи про рынок онлайн-образования в России, тренды онлайн-обучения, инфобизнес, кейсы продвижения онлайн-школ. Как ",
         "h1": "",
         "h2_count": 0,
         "h2_examples": [],
-        "img_count": 2,
-        "links_count": 4,
+        "img_count": 7,
+        "links_count": 109,
         "json_ld_types": [],
-        "word_count": 0
+        "word_count": 847
       },
       "recent_urls": [],
       "recent_count": 0
     },
     {
-      "name": "NIIDPO",
+      "name": "Vakas-tools",
       "homepage_analysis": {
-        "url": "https://niidpo.ru/",
+        "url": "https://vakas-tools.ru/",
         "status": 200,
-        "title": "ÐÑ Ð½Ðµ ÑÐ¾Ð±Ð¾Ñ?",
-        "h1": "",
-        "h2_count": 0,
-        "h2_examples": [],
-        "img_count": 2,
-        "links_count": 4,
+        "title": "Vakas-tools — интеграции и автоматизация онлайн-школ",
+        "h1": "Сервисы онлайн-школы, которые работают вместе: заявки, оплаты, рассылки без ручного переноса",
+        "h2_count": 11,
+        "h2_examples": [
+          "Знакомо?",
+          "Один центр управления вместо ручной работы в десятках сервисов",
+          "Что вы получаете внутри Vakas-tools",
+          "Что получают онлайн-школы после Vakas-tools",
+          "Готовые сценарии для онлайн-школ"
+        ],
+        "img_count": 928,
+        "links_count": 952,
         "json_ld_types": [],
-        "word_count": 0
+        "word_count": 2501
+      },
+      "recent_urls": [
+        "https://vakas-tools.ru/blog/",
+        "https://vakas-tools.ru/blog/integraciia-s-bizon365-kak-pomozhet-nash-servis/",
+        "https://vakas-tools.ru/blog/obzor-populiarnyh-platform-dlia-zaniatii-onlain-shkoly/",
+        "https://vakas-tools.ru/blog/integraciia-s-amocrm-vozmozhnosti-vakastools/",
+        "https://vakas-tools.ru/blog/sozdanie-saita-dlia-onlain-shkoly-neskolko-sovetov/",
+        "https://vakas-tools.ru/blog/senler-dlia-onlain-shkoly-chem-mozhet-byt-polezen-/",
+        "https://vakas-tools.ru/blog/integraciia-sendpulse-kak-nastroit-/",
+        "https://vakas-tools.ru/blog/avtomatizatsiya-marketinga-dlya-online-shkoli/",
+        "https://vakas-tools.ru/blog/tilda-dlya-online-shkoli/",
+        "https://vakas-tools.ru/blog/avtomaticheskaya-rassilka-v-tilda-pri-pomoshi-unisender/",
+        "https://vakas-tools.ru/blog/instrumenti-dlya-avomatizatsii-marketinga-v-online-shkole/",
+        "https://vakas-tools.ru/blog/programmi-dlya-avtomatizatsii-biznes-processov/",
+        "https://vakas-tools.ru/blog/integratsiya-getcourse-pri-pomoshi-vakastools/",
+        "https://vakas-tools.ru/blog/integraciia-bitriks24-s-vakastools/",
+        "https://vakas-tools.ru/blog/sovremennie-instrumenti-chto-aktualno-dlya-online-shkol/",
+        "https://vakas-tools.ru/blog/systemi-dlya-online-shkol/",
+        "https://vakas-tools.ru/blog/nastroika-i-vedenie-online-shkoli-obzor-prog/",
+        "https://vakas-tools.ru/blog/primer-uspeshnoi-vebinarnoi-voronki/",
+        "https://vakas-tools.ru/blog/video-pro-chastye-oshibki-pri-rabote-s-servisom-vakas-tools-i-kak-ih-izbezhat/",
+        "https://vakas-tools.ru/blog/keis-ispolzovaniia-vakas-tools-v-realnoi-onlain-shkole/",
+        "https://vakas-tools.ru/blog/raznye-stranicy-spasibo-v-zavisimosti-ot-vybrannoi-daty-vebinara/",
+        "https://vakas-tools.ru/blog/razmyshleniia-o-golubom-okeane/",
+        "https://vakas-tools.ru/blog/kak-privlech-klientov-i-zarabatyvat-na-partnerskih-ssylkah/",
+        "https://vakas-tools.ru/blog/chastye-oshibkib/",
+        "https://vakas-tools.ru/blog/sozdanie-zakaza-iz-amocrm-v-getcourse/",
+        "https://vakas-tools.ru/blog/s-chego-nachat-rabotu-s-vakas-tools-rasskazhem-na-zhivom-primere/",
+        "https://vakas-tools.ru/blog/peredacha-registracii-oplat-i-otchetov-posle-vebinara-v-bitrix24/",
+        "https://vakas-tools.ru/blog/kak-sdelat-menedzhera-iz-getcourse-otvetstvennym-v-amocrm-ili-bitrix24/",
+        "https://vakas-tools.ru/blog/kak-peredat-opros-kviz-s-tilda-v-amocrm/",
+        "https://vakas-tools.ru/blog/kak-peredat-v-vakas-tools-oplaty-i-zaiavki-esli-sobiraete-ih-s-pomoshiu-taplink/"
+      ],
+      "recent_count": 100
+    },
+    {
+      "name": "Никита Волков",
+      "homepage_analysis": {
+        "error": "HTTPSConnectionPool(host='nikitavolkov.com', port=443): Max retries exceeded with url: / (Caused by NewConnectionError(\"HTTPSConnection(host='nikitavolkov.com', port=443): Failed to establish a new connection: [Errno 111] Connection refused\"))"
       },
       "recent_urls": [],
       "recent_count": 0
     },
     {
-      "name": "VuzoPedia SPO",
+      "name": "Deity Agency",
       "homepage_analysis": {
-        "error": "HTTPSConnectionPool(host='vuzopedia.ru', port=443): Read timed out. (read timeout=30)"
+        "url": "https://deityagency.com/",
+        "status": 200,
+        "title": "Онлайн школа под ключ - создание, запуск и продвижение с нуля",
+        "h1": "Онлайн Школа под ключ - создание, запуск и продвижение",
+        "h2_count": 14,
+        "h2_examples": [
+          "Почему стоит открыть онлайн-школу в 2024 году",
+          "Наши кейсы",
+          "Кому мы будем полезны",
+          "сопутствующие услуги",
+          "этапы от упаковки до продаж"
+        ],
+        "img_count": 46,
+        "links_count": 81,
+        "json_ld_types": [],
+        "word_count": 2373
+      },
+      "recent_urls": [],
+      "recent_count": 0
+    },
+    {
+      "name": "Banksy Marketing",
+      "homepage_analysis": {
+        "url": "https://banksymarketing.ru/",
+        "status": 200,
+        "title": "Блог предпринимателя Насти Ланской (BANKSY MARKETING)",
+        "h1": "Блог Насти ЛАНСКОЙ",
+        "h2_count": 4,
+        "h2_examples": [
+          "Популярные статьи",
+          "Кейсы",
+          "Бизнес-реалити",
+          "Все статьи"
+        ],
+        "img_count": 21,
+        "links_count": 64,
+        "json_ld_types": [],
+        "word_count": 921
+      },
+      "recent_urls": [],
+      "recent_count": 0
+    },
+    {
+      "name": "Продюсерский центр В точку",
+      "homepage_analysis": {
+        "url": "https://t4ka.ru/",
+        "status": 200,
+        "title": "Маркетинговое интернет агентство полного цикла 360° «В точку» ✌️. Digital агентство продвижения и настройки рекламы.",
+        "h1": "Маркетинговое агентство полного цикла 360°",
+        "h2_count": 14,
+        "h2_examples": [
+          "Мы — точка роста 🚀 вашего бизнеса. Комплексный маркетинг: исследование рынка, бр",
+          "Наша мощная команда 💪",
+          "Услуги маркетингового агентства 🎯",
+          "Разработка сайтов \nи интернет-магазинов",
+          "SMM: Продвижение в социальных сетях"
+        ],
+        "img_count": 128,
+        "links_count": 310,
+        "json_ld_types": [],
+        "word_count": 2381
+      },
+      "recent_urls": [],
+      "recent_count": 0
+    },
+    {
+      "name": "WayAgency",
+      "homepage_analysis": {
+        "error": "HTTPSConnectionPool(host='wayagency.ru', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1010)')))"
       },
       "recent_urls": [],
       "recent_count": 0
