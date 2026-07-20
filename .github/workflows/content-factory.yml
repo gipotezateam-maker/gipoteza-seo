@@ -1,10 +1,13 @@
 name: content-factory
 
-# ФАЗА 1: контент-фабрика НЕ запускается по расписанию.
-# Сайт gipoteza-agency.ru — React 19/Vite SPA, формат вывода фабрики надо
-# адаптировать под 4-файловый контракт (Фаза 2). До адаптации — только
-# ручной запуск из Actions tab (workflow_dispatch), крон намеренно снят.
+# ФАЗА 2: фабрика пишет .md-статьи в РЕПО САЙТА (gipoteza-landing),
+# состояние тем (topics_*.csv) — в этот репо (gipoteza-seo).
+# Пока только ручной запуск (workflow_dispatch). Крон включим после первого
+# успешного прогона (autopilot публикации в прод — осознанный шаг).
 # Anthropic API недоступен из РФ → запуск на runner'ах GitHub (US/EU).
+#
+# ТРЕБУЕТСЯ СЕКРЕТ: SITE_REPO_TOKEN — PAT с правом write на gipotezateam-maker/gipoteza-landing
+# (fine-grained: Contents → Read and write). Нужен, чтобы пушить статьи в чужой репо.
 
 on:
   workflow_dispatch:
@@ -23,10 +26,9 @@ on:
         default: "true"
 
 permissions:
-  # Для коммита/пуша новых статей в этот же репо
+  # Для коммита/пуша состояния тем (topics_*.csv) в ЭТОТ репо
   contents: write
 
-# Только один прогон одновременно — чтобы не пересеклись pull/push
 concurrency:
   group: content-factory
   cancel-in-progress: false
@@ -37,15 +39,25 @@ jobs:
     timeout-minutes: 30
 
     steps:
-      - name: Checkout repo
+      - name: Checkout factory repo (gipoteza-seo)
         uses: actions/checkout@v4
         with:
-          # persist-credentials: true (по умолчанию) → orchestrator сможет git push
-          # через тот же GITHUB_TOKEN, без отдельного SSH-ключа
+          # persist-credentials: true → orchestrator пушит состояние (CSV) в этот репо
+          # через GITHUB_TOKEN
           persist-credentials: true
-          # fetch-depth: 2 — нужен родитель текущего HEAD (${{ github.sha }}),
-          # чтобы шаг пинга вычислил git diff против состояния ДО генерации статей.
+
+      - name: Checkout site repo (gipoteza-landing) into ./site
+        uses: actions/checkout@v4
+        with:
+          repository: gipotezateam-maker/gipoteza-landing
+          token: ${{ secrets.SITE_REPO_TOKEN }}
+          path: site
+          persist-credentials: true
+          # depth 2 — чтобы шаг ping посчитал git diff новых статей (base=HEAD до прогона)
           fetch-depth: 2
+
+      - name: Capture site base SHA (для ping-диффа)
+        run: echo "SITE_BASE_SHA=$(git -C site rev-parse HEAD)" >> "$GITHUB_ENV"
 
       - name: Setup Python 3.12
         uses: actions/setup-python@v5
@@ -62,38 +74,37 @@ jobs:
 
       - name: Configure git author
         run: |
-          git config user.email "bot@example.com"
-          git config user.name "content-factory"
+          git config --global user.email "bot@gipoteza-agency.ru"
+          git config --global user.name "content-factory"
 
       - name: Run orchestrator
         working-directory: content-factory
         env:
-          # Секреты — задать в Settings → Secrets → Actions
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           ANTHROPIC_MODEL: claude-sonnet-4-6
           RESEND_API_KEY: ${{ secrets.RESEND_API_KEY }}
 
           EMAIL_FROM: "onboarding@resend.dev"
-          EMAIL_TO: "you@example.com"
+          EMAIL_TO: "neondinozavr@gmail.com"
           EMAIL_FROM_FALLBACK: "onboarding@resend.dev"
 
-          # Параметры запуска
           ARTICLES_PER_DAY: ${{ github.event.inputs.articles_per_day || '5' }}
           ENABLE_EDITOR_PASS: ${{ github.event.inputs.enable_editor_pass || 'true' }}
           USE_BATCH: ${{ github.event.inputs.use_batch || 'true' }}
           TIMEZONE: Europe/Moscow
 
-          # Пути для blog (orchestrator определит SITE_REPO_PATH из GITHUB_WORKSPACE)
-          SITE_BLOG_DIR: content/blog
+          # Статьи → репо сайта (чекаут ./site), состояние → этот репо (workspace)
+          SITE_REPO_PATH: ${{ github.workspace }}/site
+          SITE_BLOG_DIR: client/src/content/blog
           SITE_REPO_BRANCH: main
+          STATE_REPO_BRANCH: main
         run: python orchestrator.py
 
-      # Пинг поисковиков о свежих статьях. Отдельный workflow seo-ping.yml (on:push)
-      # НЕ срабатывает на коммиты фабрики — push через GITHUB_TOKEN не триггерит
-      # другие workflow (защита GitHub от рекурсии). Поэтому пингуем здесь же,
-      # в том же job, против состояния репо ДО генерации (${{ github.sha }}).
+      # Пинг поисковиков о свежих статьях — по git diff репо САЙТА (./site),
+      # от базового SHA (до прогона) к HEAD (после пуша статей).
       - name: Ping search engines (IndexNow + Я.Вебмастер + GSC)
         if: success()
+        working-directory: site
         env:
           GSC_SERVICE_ACCOUNT_JSON: ${{ secrets.GSC_SERVICE_ACCOUNT_JSON }}
           GSC_SITE_URL: https://gipoteza-agency.ru/
@@ -106,7 +117,7 @@ jobs:
           SITEMAP_URL: https://gipoteza-agency.ru/sitemap.xml
         run: |
           pip install google-api-python-client google-auth google-auth-oauthlib requests
-          python3 seo-agent/scripts/ping_new_urls.py --from-git-diff --base-ref=${{ github.sha }} --head-ref=HEAD
+          python3 "$GITHUB_WORKSPACE/seo-agent/scripts/ping_new_urls.py" --from-git-diff --base-ref="$SITE_BASE_SHA" --head-ref=HEAD
 
       - name: Upload run log as artifact
         if: always()

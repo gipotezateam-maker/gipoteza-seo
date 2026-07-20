@@ -102,8 +102,11 @@ def files_to_urls(files: list[str]) -> list[str]:
         if not f:
             continue
 
-        # Блог: content/blog/<slug>.mdx → /blog/<slug>
-        if f.startswith("content/blog/") and f.endswith(".mdx"):
+        # Блог: client/src/content/blog/<slug>.md → /blog/<slug>
+        # (исторически также поддерживаем старый путь content/blog/<slug>.mdx)
+        if (f.startswith("client/src/content/blog/") and f.endswith(".md")) or (
+            f.startswith("content/blog/") and f.endswith(".mdx")
+        ):
             slug = Path(f).stem
             add(f"{SITE_BASE}/blog/{slug}")
             continue
