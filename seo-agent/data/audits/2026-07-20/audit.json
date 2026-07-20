@@ -1,0 +1,405 @@
+{
+  "date": "2026-07-20",
+  "site": "https://gipoteza-agency.ru",
+  "crawl_stats": {
+    "total": 11,
+    "ok": 11,
+    "redirect": 0,
+    "client_err": 0,
+    "server_err": 0,
+    "network_err": 0
+  },
+  "issues": [
+    {
+      "url": "https://gipoteza-agency.ru/",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/",
+      "check": "description_too_long",
+      "severity": "medium",
+      "detail": "desc=203 символов, рекомендуется ≤160"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/",
+      "check": "h1_missing",
+      "severity": "high",
+      "detail": "нет <h1>"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/offer",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/offer",
+      "check": "description_too_long",
+      "severity": "medium",
+      "detail": "desc=203 символов, рекомендуется ≤160"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/offer",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/offer"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/offer",
+      "check": "h1_missing",
+      "severity": "high",
+      "detail": "нет <h1>"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/expert",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/expert",
+      "check": "description_too_long",
+      "severity": "medium",
+      "detail": "desc=203 символов, рекомендуется ≤160"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/expert",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/expert"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/expert",
+      "check": "h1_missing",
+      "severity": "high",
+      "detail": "нет <h1>"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/b2b",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/b2b",
+      "check": "description_too_long",
+      "severity": "medium",
+      "detail": "desc=203 символов, рекомендуется ≤160"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/b2b",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/b2b"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/b2b",
+      "check": "h1_missing",
+      "severity": "high",
+      "detail": "нет <h1>"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/traffic",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/traffic",
+      "check": "description_too_long",
+      "severity": "medium",
+      "detail": "desc=203 символов, рекомендуется ≤160"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/traffic",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/traffic"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/traffic",
+      "check": "h1_missing",
+      "severity": "high",
+      "detail": "нет <h1>"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/neuro",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/neuro",
+      "check": "description_too_long",
+      "severity": "medium",
+      "detail": "desc=203 символов, рекомендуется ≤160"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/neuro",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/neuro"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/neuro",
+      "check": "h1_missing",
+      "severity": "high",
+      "detail": "нет <h1>"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/course",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/course",
+      "check": "description_too_long",
+      "severity": "medium",
+      "detail": "desc=203 символов, рекомендуется ≤160"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/course",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/course"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/course",
+      "check": "h1_missing",
+      "severity": "high",
+      "detail": "нет <h1>"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog",
+      "check": "description_too_long",
+      "severity": "medium",
+      "detail": "desc=203 символов, рекомендуется ≤160"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/blog"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog",
+      "check": "h1_missing",
+      "severity": "high",
+      "detail": "нет <h1>"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly",
+      "check": "description_too_long",
+      "severity": "medium",
+      "detail": "desc=203 символов, рекомендуется ≤160"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly",
+      "check": "h1_missing",
+      "severity": "high",
+      "detail": "нет <h1>"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo",
+      "check": "description_too_long",
+      "severity": "medium",
+      "detail": "desc=203 символов, рекомендуется ≤160"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo",
+      "check": "h1_missing",
+      "severity": "high",
+      "detail": "нет <h1>"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara",
+      "check": "description_too_long",
+      "severity": "medium",
+      "detail": "desc=203 символов, рекомендуется ≤160"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara",
+      "check": "h1_missing",
+      "severity": "high",
+      "detail": "нет <h1>"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 10 стр: https://gipoteza-agency.ru/offer и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/offer",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/expert",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/b2b",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/traffic",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/neuro",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/course",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 10 стр: https://gipoteza-agency.ru/offer и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/offer",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/expert",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/b2b",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/traffic",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/neuro",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/course",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 10 стр: https://gipoteza-agency.ru/ и ещё 9"
+    }
+  ],
+  "psi": {}
+}
