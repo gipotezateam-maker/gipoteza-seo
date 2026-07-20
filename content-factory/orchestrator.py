@@ -45,6 +45,13 @@ MODEL = os.environ.get("ANTHROPIC_MODEL", "claude-sonnet-4-6")
 ARTICLES_PER_DAY = int(os.environ.get("ARTICLES_PER_DAY", "5"))
 ENABLE_EDITOR_PASS = os.environ.get("ENABLE_EDITOR_PASS", "true").lower() == "true"
 
+# Автопополнение бэклога: если неиспользованных тем меньше MIN_BACKLOG,
+# фабрика сама генерит REFILL_BATCH новых тем (Claude), чтобы пул не пустел.
+MIN_BACKLOG = int(os.environ.get("MIN_BACKLOG", "10"))
+REFILL_BATCH = int(os.environ.get("REFILL_BATCH", "12"))
+BACKLOG_FIELDS = ["topic", "primary_keyword", "secondary_keywords", "intent",
+                  "category", "wordstat_frequency", "competitor_refs", "priority"]
+
 # Batch API: −50% на токены (запуск раз в день не критичен по латентности).
 # Статьи независимы, поэтому гоняем по стадиям: 5 брифов → 5 текстов → 5 редактур.
 # Внутри стадии общий system-промпт кэшируется (prompt caching). USE_BATCH=false
@@ -198,6 +205,65 @@ def append_used(rows: list[dict]) -> None:
             writer.writeheader()
         for r in rows:
             writer.writerow(r)
+
+
+def append_backlog(rows: list[dict]) -> None:
+    """Дописывает новые темы в конец topics_backlog.csv."""
+    is_new = not BACKLOG_PATH.exists()
+    with BACKLOG_PATH.open("a", encoding="utf-8", newline="") as f:
+        writer = csv.DictWriter(f, fieldnames=BACKLOG_FIELDS)
+        if is_new:
+            writer.writeheader()
+        for r in rows:
+            writer.writerow({k: r.get(k, "") for k in BACKLOG_FIELDS})
+
+
+def parse_topics(raw: str) -> list[dict]:
+    """Парсит JSON-массив тем из ответа Claude (терпимо к ```-обёртке)."""
+    s = raw.strip()
+    if s.startswith("```"):
+        s = re.sub(r"^```[a-zA-Z]*\n?", "", s)
+        s = re.sub(r"\n?```$", "", s).strip()
+    data = json.loads(s)
+    return data if isinstance(data, list) else data.get("topics", [])
+
+
+def ensure_backlog() -> int:
+    """Если неиспользованных тем < MIN_BACKLOG — генерит новые через Claude и
+    дописывает в бэклог. Возвращает число добавленных тем. Не критично: при сбое
+    логируем и продолжаем на текущих темах.
+    """
+    backlog = load_backlog()
+    used = load_used_slugs()
+    unused = [t for t in backlog if t.primary_keyword.strip().lower() not in used]
+    if len(unused) >= MIN_BACKLOG:
+        return 0
+
+    log.info("Бэклог низкий (unused=%d < %d) — генерирую новые темы", len(unused), MIN_BACKLOG)
+    avoid_topics = [t.topic for t in backlog]
+    avoid_keywords = sorted({t.primary_keyword for t in backlog} | used)
+    user = json.dumps(
+        {"need": REFILL_BATCH, "avoid_topics": avoid_topics, "avoid_keywords": avoid_keywords},
+        ensure_ascii=False,
+    )
+    try:
+        raw = call_claude(read_prompt("04_topic_generator.md"), user, max_tokens=4000)
+        rows = parse_topics(raw)
+    except Exception as e:  # noqa: BLE001 — пополнение не должно валить прогон
+        log.warning("Не удалось сгенерировать темы: %s", e)
+        return 0
+
+    seen = {k.strip().lower() for k in avoid_keywords}
+    fresh = []
+    for r in rows:
+        kw = str(r.get("primary_keyword", "")).strip().lower()
+        if kw and kw not in seen:
+            seen.add(kw)
+            fresh.append(r)
+    if fresh:
+        append_backlog(fresh)
+        log.info("Бэклог пополнен: +%d тем", len(fresh))
+    return len(fresh)
 
 
 def remove_topics_from_backlog(consumed: list[Topic]) -> None:
@@ -706,6 +772,9 @@ def main() -> int:
 
     blog_dir = SITE_REPO_PATH / SITE_BLOG_DIR
     blog_dir.mkdir(parents=True, exist_ok=True)
+
+    # Автопополнение: не даём бэклогу опустеть — при нехватке тем генерим новые.
+    ensure_backlog()
 
     topics = pick_topics(ARTICLES_PER_DAY)
     if not topics:

@@ -2,14 +2,16 @@ name: content-factory
 
 # ФАЗА 2: фабрика пишет .md-статьи в РЕПО САЙТА (gipoteza-landing),
 # состояние тем (topics_*.csv) — в этот репо (gipoteza-seo).
-# Пока только ручной запуск (workflow_dispatch). Крон включим после первого
-# успешного прогона (autopilot публикации в прод — осознанный шаг).
+# АВТОПИЛОТ: крон раз в день (5 статей). Бэклог тем пополняется автоматически
+# (orchestrator.ensure_backlog при нехватке генерит новые темы).
 # Anthropic API недоступен из РФ → запуск на runner'ах GitHub (US/EU).
 #
-# ТРЕБУЕТСЯ СЕКРЕТ: SITE_REPO_TOKEN — PAT с правом write на gipotezateam-maker/gipoteza-landing
-# (fine-grained: Contents → Read and write). Нужен, чтобы пушить статьи в чужой репо.
+# СЕКРЕТЫ: SITE_REPO_TOKEN (PAT write на gipoteza-landing), OPENAI_API_KEY (обложки).
 
 on:
+  schedule:
+    # 06:30 UTC = 09:30 МСК, каждый день
+    - cron: "30 6 * * *"
   workflow_dispatch:
     inputs:
       articles_per_day:
@@ -21,7 +23,7 @@ on:
         required: false
         default: "true"
       use_batch:
-        description: "Batch API (−50%, чуть дольше). false → старый последовательный режим"
+        description: "Batch API (−50%, чуть дольше). true → батч-режим"
         required: false
         default: "true"
 
