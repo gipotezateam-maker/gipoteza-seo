@@ -179,7 +179,18 @@
     {
       "name": "WayAgency",
       "homepage_analysis": {
-        "error": "HTTPSConnectionPool(host='wayagency.ru', port=443): Max retries exceeded with url: / (Caused by SSLError(SSLCertVerificationError(1, '[SSL: CERTIFICATE_VERIFY_FAILED] certificate verify failed: self-signed certificate (_ssl.c:1010)')))"
+        "url": "https://wayagency.ru/",
+        "status": 200,
+        "title": "Увеличим прибыль с помощью комплексного интернет-маркетинга | WAYAGENCY",
+        "h1": "Продюсерский центр WayAgency",
+        "h2_count": 1,
+        "h2_examples": [
+          "История создания WayAgency"
+        ],
+        "img_count": 32,
+        "links_count": 71,
+        "json_ld_types": [],
+        "word_count": 2126
       },
       "recent_urls": [],
       "recent_count": 0
