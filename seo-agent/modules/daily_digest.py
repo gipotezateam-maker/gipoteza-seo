@@ -85,6 +85,38 @@ def gsc_traffic_daily() -> dict:
         return {}
 
 
+def yandex_traffic_daily() -> dict:
+    """Показы/клики из Яндекса за последний доступный день vs предыдущий.
+
+    Аналог gsc_traffic_daily, но источник — Яндекс.Вебмастер (search-queries).
+    Данные приходят с лагом ~2-3 дня, поэтому берём два последних дня с данными.
+    """
+    try:
+        from modules.yandex_webmaster import yw_resolve_host_id, yw_queries_history
+        user_id, host_id = yw_resolve_host_id(host_url=site_domain())
+        start = (dt.date.today() - dt.timedelta(days=10)).isoformat()
+        end = (dt.date.today() - dt.timedelta(days=1)).isoformat()
+        ind = yw_queries_history(user_id, host_id, start, end)
+        shows = {p["date"][:10]: p.get("value", 0) for p in ind.get("TOTAL_SHOWS", []) if p.get("date")}
+        clicks = {p["date"][:10]: p.get("value", 0) for p in ind.get("TOTAL_CLICKS", []) if p.get("date")}
+        days = sorted(set(shows) | set(clicks))
+        if not days:
+            return {}
+        last = days[-1]
+        prev = days[-2] if len(days) >= 2 else None
+        c1, i1 = int(clicks.get(last, 0)), int(shows.get(last, 0))
+        c2, i2 = (int(clicks.get(prev, 0)), int(shows.get(prev, 0))) if prev else (0, 0)
+        return {
+            "date": last,
+            "clicks": c1, "impressions": i1,
+            "delta_clicks": c1 - c2, "delta_impressions": i1 - i2,
+            "has_prev": prev is not None,
+        }
+    except Exception as e:
+        log.warning("Я.Вебмастер daily трафик: %s", e)
+        return {}
+
+
 def _load_rankings(path: Path) -> dict[str, dict]:
     out: dict[str, dict] = {}
     with path.open(encoding="utf-8") as f:
@@ -226,6 +258,7 @@ def latest_audit() -> Optional[dict]:
 def build_payload() -> dict:
     payload = {
         "traffic": gsc_traffic_daily(),
+        "yandex_traffic": yandex_traffic_daily(),
         "rankings": rankings_daily(),
         "audit": latest_audit(),
         "yandex_webmaster": yandex_webmaster_daily(),
@@ -259,6 +292,16 @@ def render_telegram(today: dt.date, site: str, payload: dict, advice: str) -> st
     else:
         lines.append("\n👥 Трафик из Google: данных пока нет "
                      "(новый домен или Search Console ещё копит статистику).")
+
+    yt = payload.get("yandex_traffic") or {}
+    if yt:
+        dc, di = yt["delta_clicks"], yt["delta_impressions"]
+        trend = "больше вчерашнего" if dc > 0 else ("меньше вчерашнего" if dc < 0 else "как вчера")
+        lines.append(
+            f"\n🔴 Трафик из Яндекса: {yt['clicks']} "
+            f"{plural(yt['clicks'], 'переход', 'перехода', 'переходов')} "
+            f"({dc:+d} — {trend}). Показов {yt['impressions']} ({di:+d})."
+        )
 
     r = payload.get("rankings") or {}
     if r and r.get("total"):

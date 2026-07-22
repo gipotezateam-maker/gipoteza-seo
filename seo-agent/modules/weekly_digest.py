@@ -197,6 +197,43 @@ def yandex_webmaster_summary() -> dict:
     return {}
 
 
+def yandex_traffic_summary() -> dict:
+    """Показы и клики из Яндекса за последние 7 дней + за предыдущие 7.
+
+    Аналог gsc_traffic_summary, но источник — Яндекс.Вебмастер (search-queries).
+    Данные Яндекса приходят с лагом ~2-3 дня, поэтому окно то же, что у GSC.
+    """
+    try:
+        from modules.yandex_webmaster import yw_resolve_host_id, yw_queries_history
+        user_id, host_id = yw_resolve_host_id(host_url=site_domain())
+
+        end_curr = dt.date.today() - dt.timedelta(days=2)
+        start_curr = dt.date.today() - dt.timedelta(days=9)
+        end_prev = dt.date.today() - dt.timedelta(days=10)
+        start_prev = dt.date.today() - dt.timedelta(days=17)
+
+        ind = yw_queries_history(user_id, host_id, start_prev.isoformat(), end_curr.isoformat())
+        shows = {p["date"][:10]: p.get("value", 0) for p in ind.get("TOTAL_SHOWS", []) if p.get("date")}
+        clicks = {p["date"][:10]: p.get("value", 0) for p in ind.get("TOTAL_CLICKS", []) if p.get("date")}
+        if not shows and not clicks:
+            return {}
+
+        def _sum(pts: dict, a: dt.date, b: dt.date) -> int:
+            lo, hi = a.isoformat(), b.isoformat()
+            return int(sum(v for k, v in pts.items() if lo <= k <= hi))
+
+        c1, c2 = _sum(clicks, start_curr, end_curr), _sum(clicks, start_prev, end_prev)
+        i1, i2 = _sum(shows, start_curr, end_curr), _sum(shows, start_prev, end_prev)
+        return {
+            "clicks_week": c1, "impressions_week": i1,
+            "clicks_prev": c2, "impressions_prev": i2,
+            "delta_clicks": c1 - c2, "delta_impressions": i1 - i2,
+        }
+    except Exception as e:
+        log.warning("Я.Вебмастер трафик: %s", e)
+    return {}
+
+
 def gsc_traffic_summary() -> dict:
     """Клики и показы за последние 7 дней + за предыдущие 7."""
     try:
@@ -249,6 +286,16 @@ def render_digest(today: dt.date, payload: dict) -> str:
                      f"(на {di:+d})")
         lines.append("\n> «Показы» — сколько раз сайт мелькнул в поиске. «Переходы» — "
                      "сколько человек реально кликнули и зашли.")
+
+    # ── Трафик из Яндекса
+    yt = payload.get("yandex_traffic", {})
+    if yt:
+        dc, di = yt["delta_clicks"], yt["delta_impressions"]
+        lines.append("\n## Сколько людей пришло из Яндекса")
+        lines.append(f"- Перешли на сайт из Яндекса: **{yt['clicks_week']}** "
+                     f"(на {dc:+d} к прошлой неделе)")
+        lines.append(f"- Сайт показался в результатах Яндекса: **{yt['impressions_week']}** раз "
+                     f"(на {di:+d})")
 
     # ── Индекс
     yw = payload.get("yandex_webmaster", {})
@@ -348,6 +395,16 @@ def render_telegram(today: dt.date, payload: dict) -> str:
                      f"({dc:+d}) — {trend}.")
         lines.append(f"   Сайт показался в поиске {t['impressions_week']} раз ({di:+d}).")
 
+    yt = payload.get("yandex_traffic", {})
+    if yt:
+        dc, di = yt["delta_clicks"], yt["delta_impressions"]
+        trend = "это больше, чем неделей раньше" if dc > 0 else (
+            "это меньше, чем неделей раньше" if dc < 0 else "столько же, сколько неделей раньше")
+        lines.append(f"\n🔴 Из поиска Яндекса пришло {yt['clicks_week']} "
+                     f"{plural(yt['clicks_week'], 'переход', 'перехода', 'переходов')} на сайт "
+                     f"({dc:+d}) — {trend}.")
+        lines.append(f"   Сайт показался в Яндексе {yt['impressions_week']} раз ({di:+d}).")
+
     r = payload.get("rankings", {})
     if r:
         lines.append(f"\n📊 В первой странице Google (ТОП-10): {r.get('google_top10', 0)} "
@@ -402,6 +459,7 @@ def run_digest(dry_run: bool = False) -> Path:
         "content_published": content_factory_published(week_ago),
         "yandex_webmaster": yandex_webmaster_summary(),
         "traffic": gsc_traffic_summary(),
+        "yandex_traffic": yandex_traffic_summary(),
     }
     audit = payload.get("audit")
     if audit:

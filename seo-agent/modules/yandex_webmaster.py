@@ -105,6 +105,30 @@ def yw_search_queries(
     return data.get("queries", [])
 
 
+def yw_queries_history(
+    user_id: int,
+    host_id: str,
+    date_from: str,
+    date_to: str,
+    indicators: tuple[str, ...] = ("TOTAL_SHOWS", "TOTAL_CLICKS"),
+) -> dict:
+    """Суммарные показы/клики сайта в поиске Яндекса по датам (аналог GSC-трафика).
+
+    Возвращает словарь вида {"TOTAL_SHOWS": [{"date": ..., "value": N}, ...],
+    "TOTAL_CLICKS": [...]}. Данные Яндекса приходят с лагом ~2-3 дня.
+
+    Docs: https://yandex.ru/dev/webmaster/doc/dg/reference/host-search-queries-all-history.html
+    """
+    params: list[tuple[str, str]] = [("date_from", date_from), ("date_to", date_to)]
+    for ind in indicators:
+        params.append(("query_indicator", ind))
+    data = _get(
+        f"/user/{user_id}/hosts/{quote(host_id, safe='')}/search-queries/all/history/",
+        params=params,
+    )
+    return data.get("indicators", {})
+
+
 def yw_recrawl_quota(user_id: int, host_id: str) -> dict:
     """Возвращает квоту recrawl: { quota_remaining_daily, daily_quota }.
 
