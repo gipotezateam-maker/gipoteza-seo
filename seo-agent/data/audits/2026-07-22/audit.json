@@ -2,8 +2,8 @@
   "date": "2026-07-22",
   "site": "https://gipoteza-agency.ru",
   "crawl_stats": {
-    "total": 16,
-    "ok": 16,
+    "total": 21,
+    "ok": 21,
     "redirect": 0,
     "client_err": 0,
     "server_err": 0,
@@ -173,10 +173,34 @@
       "detail": "нет <h1>"
     },
     {
+      "url": "https://gipoteza-agency.ru/blog/avtovebinarnaya-voronka",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
       "url": "https://gipoteza-agency.ru/blog/konversiya-vebinarnoy-voronki-normy",
       "check": "title_too_long",
       "severity": "medium",
       "detail": "title=75 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/offer-na-vebinare",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=67 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/progrev-pered-vebinarom",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=61 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/target-vk-dlya-onlayn-shkoly",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=68 символов, рекомендуется ≤60"
     },
     {
       "url": "https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly",

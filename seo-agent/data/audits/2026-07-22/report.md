@@ -1,8 +1,8 @@
 # Tech-audit gipoteza-agency.ru — 2026-07-22
 
-**Краулинг:** 16 страниц · 2xx 16 · 3xx 0 · 4xx 0 · 5xx 0 · network errors 0
+**Краулинг:** 21 страниц · 2xx 21 · 3xx 0 · 4xx 0 · 5xx 0 · network errors 0
 
-**Issues:** critical 9 · high 20 · medium 31 · low 0
+**Issues:** critical 9 · high 20 · medium 35 · low 0
 
 
 ## CRITICAL (9)
@@ -49,10 +49,10 @@
 - `https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo` — тот же <title> ещё на 9 стр: https://gipoteza-agency.ru/ и ещё 8
 - `https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara` — тот же <title> ещё на 9 стр: https://gipoteza-agency.ru/ и ещё 8
 
-## MEDIUM (31)
+## MEDIUM (35)
 
 
-### title_too_long (11)
+### title_too_long (15)
 
 - `https://gipoteza-agency.ru/` — title=65 символов, рекомендуется ≤60
 - `https://gipoteza-agency.ru/offer` — title=65 символов, рекомендуется ≤60
@@ -61,7 +61,11 @@
 - `https://gipoteza-agency.ru/traffic` — title=65 символов, рекомендуется ≤60
 - `https://gipoteza-agency.ru/neuro` — title=65 символов, рекомендуется ≤60
 - `https://gipoteza-agency.ru/course` — title=65 символов, рекомендуется ≤60
+- `https://gipoteza-agency.ru/blog/avtovebinarnaya-voronka` — title=65 символов, рекомендуется ≤60
 - `https://gipoteza-agency.ru/blog/konversiya-vebinarnoy-voronki-normy` — title=75 символов, рекомендуется ≤60
+- `https://gipoteza-agency.ru/blog/offer-na-vebinare` — title=67 символов, рекомендуется ≤60
+- `https://gipoteza-agency.ru/blog/progrev-pered-vebinarom` — title=61 символов, рекомендуется ≤60
+- `https://gipoteza-agency.ru/blog/target-vk-dlya-onlayn-shkoly` — title=68 символов, рекомендуется ≤60
 - `https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly` — title=65 символов, рекомендуется ≤60
 - `https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo` — title=65 символов, рекомендуется ≤60
 - `https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara` — title=65 символов, рекомендуется ≤60
