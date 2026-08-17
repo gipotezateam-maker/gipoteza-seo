@@ -1,0 +1,255 @@
+{
+  "date": "2026-08-17",
+  "site": "https://gipoteza-agency.ru",
+  "crawl_stats": {
+    "total": 56,
+    "ok": 56,
+    "redirect": 0,
+    "client_err": 0,
+    "server_err": 0,
+    "network_err": 0
+  },
+  "issues": [
+    {
+      "url": "https://gipoteza-agency.ru/blog/ab-test-lending-vebinara",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=73 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/apsell-i-kross-sell-posle-zapuska-ltv-uchenika",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=69 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/avtovebinarnaya-voronka",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/besplatnyy-mini-kurs-voronka-prodazh",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=61 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/content-plan-progrev-telegram-kanal",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=68 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/format-zapuska-onlayn-kursa",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=64 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/keys-zapusk-onlayn-kursa-bez-bloga-million",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=62 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/konversiya-vebinarnoy-voronki-normy",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=75 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/ltv-ученика-онлайн-школы",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/blog/ltv-ученика-онлайн-школы"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/offer-na-vebinare",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=67 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/pervyj-platnyj-vebinar-ekspert-bez-auditorii-keys",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=62 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/priglashenie-na-vebinar-pismo",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=61 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/prodayushchaya-stranitsa-onlayn-kursa",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=62 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/prodazhi-cherez-diagnostiku-online",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=63 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/product-line-online-school-ltv",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=66 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/progrev-pered-vebinarom",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=61 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/retention-marketing-dlya-onlayn-shkoly",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=72 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/roi-zapuska-onlayn-kursa",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=61 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/romi-i-unit-ekonomika-zapuska",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=65 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/segmentaciya-auditorii-v-voronke-prodazh-po-gotovnosti",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=63 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/seriya-vebinarov-dlya-prodazh-kursa",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=64 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/target-vk-dlya-onlayn-shkoly",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=68 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/telegram-bot-avtovoronka-onlain-shkola",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=67 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/tripwire-dlya-onlayn-shkoly",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=70 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/unit-ekonomika-onlajn-kursa",
+      "check": "title_too_long",
+      "severity": "medium",
+      "detail": "title=64 символов, рекомендуется ≤60"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara",
+      "check": "canonical_mismatch",
+      "severity": "critical",
+      "detail": "canonical=https://gipoteza-agency.ru/ ≠ url=https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 4 стр: https://gipoteza-agency.ru/blog/ltv-ученика-онлайн-школы и ещё 3"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/ltv-ученика-онлайн-школы",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 4 стр: https://gipoteza-agency.ru/ и ещё 3"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 4 стр: https://gipoteza-agency.ru/ и ещё 3"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 4 стр: https://gipoteza-agency.ru/ и ещё 3"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 4 стр: https://gipoteza-agency.ru/ и ещё 3"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/voronka-dlya-nastavnichestva",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 1 стр: https://gipoteza-agency.ru/blog/voronka-prodazh-nastavnichestvo-vysokiy-chek"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/voronka-prodazh-nastavnichestvo-vysokiy-chek",
+      "check": "duplicate_title",
+      "severity": "high",
+      "detail": "тот же <title> ещё на 1 стр: https://gipoteza-agency.ru/blog/voronka-dlya-nastavnichestva"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 4 стр: https://gipoteza-agency.ru/blog/ltv-ученика-онлайн-школы и ещё 3"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/ltv-ученика-онлайн-школы",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 4 стр: https://gipoteza-agency.ru/ и ещё 3"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/okupaemost-vebinarov-dlya-onlajn-shkoly",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 4 стр: https://gipoteza-agency.ru/ и ещё 3"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/edtech-2026-konchilos-detstvo",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 4 стр: https://gipoteza-agency.ru/ и ещё 3"
+    },
+    {
+      "url": "https://gipoteza-agency.ru/blog/iz-chego-sostoit-zapusk-vebinara",
+      "check": "duplicate_description",
+      "severity": "medium",
+      "detail": "тот же meta description ещё на 4 стр: https://gipoteza-agency.ru/ и ещё 3"
+    }
+  ],
+  "psi": {}
+}
