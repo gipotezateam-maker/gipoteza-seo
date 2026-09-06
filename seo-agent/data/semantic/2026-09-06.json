@@ -1,0 +1,22 @@
+{
+  "date": "2026-09-06",
+  "queries_count": 2,
+  "topics_added": 0,
+  "queries": [
+    {
+      "text": "автоворонка для онлайн школы",
+      "impressions": 6,
+      "clicks": 0,
+      "position": 9.166666666666666,
+      "source": "gsc"
+    },
+    {
+      "text": "увеличение ltv в edtech",
+      "impressions": 6,
+      "clicks": 0,
+      "position": 11.333333333333334,
+      "source": "gsc"
+    }
+  ],
+  "topics": []
+}
