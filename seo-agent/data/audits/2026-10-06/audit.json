@@ -1,0 +1,21 @@
+{
+  "date": "2026-10-06",
+  "site": "https://gipoteza-agency.ru",
+  "crawl_stats": {
+    "total": 1,
+    "ok": 0,
+    "redirect": 0,
+    "client_err": 1,
+    "server_err": 0,
+    "network_err": 0
+  },
+  "issues": [
+    {
+      "url": "https://gipoteza.agency/",
+      "check": "http_4xx",
+      "severity": "high",
+      "detail": "HTTP 404"
+    }
+  ],
+  "psi": {}
+}
